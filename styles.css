@@ -94,6 +94,11 @@ button { font: inherit; cursor: pointer; }
 .success { padding: 40px 24px; text-align: center; }
 .success h2 { margin: 12px 0 8px; }
 .success-icon { display: grid; place-items: center; width: 58px; height: 58px; margin: auto; border-radius: 50%; background: #e8f5ec; color: #18743a; font-size: 30px; font-weight: 900; }
+.notice-dialog { width: min(420px, calc(100% - 32px)); border: 0; border-radius: 16px; padding: 30px 24px; color: var(--ink); text-align: center; box-shadow: 0 22px 60px rgba(44, 13, 18, .28); }
+.notice-dialog::backdrop { background: rgba(32, 20, 22, .5); }
+.notice-dialog h2 { margin: 12px 0 8px; font-size: 20px; }
+.notice-dialog p { margin: 0 0 20px; color: var(--muted); line-height: 1.7; }
+.notice-icon { display: grid; place-items: center; width: 52px; height: 52px; margin: auto; border-radius: 50%; background: #fff0d9; color: #a66000; font-size: 28px; font-weight: 900; }
 @media (max-width: 740px) {
   .panel { padding: 19px 16px; }
   .grid.two, .product-grid, .delivery-options { grid-template-columns: 1fr; }

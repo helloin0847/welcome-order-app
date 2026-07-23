@@ -76,6 +76,16 @@ function buildPayload() {
   };
 }
 
+function hasOrderContent(data) {
+  return data.name_tags.length > 0 ||
+    data.card_quantity > 0 ||
+    data.free_quantity > 0 ||
+    data.set_quantity > 0 ||
+    data.receipt_quantity > 0 ||
+    data.handwritten_male_quantity > 0 ||
+    data.handwritten_female_quantity > 0;
+}
+
 function renderHistory(rows) {
   $("historyStatus").textContent = rows.length ? "" : "この店舗の発注履歴はまだありません。";
   $("historyList").innerHTML = rows.map(row => {
@@ -131,13 +141,27 @@ document.querySelectorAll("[name=delivery]").forEach(radio => {
     if (!urgent) $("deliveryDate").value = "";
   });
 });
-$("orderForm").addEventListener("submit", async event => {
+$("orderForm").addEventListener("submit", event => {
   event.preventDefault();
+});
+$("orderForm").addEventListener("keydown", event => {
+  if (event.key === "Enter" && event.target.tagName !== "TEXTAREA") {
+    event.preventDefault();
+  }
+});
+$("submit").addEventListener("click", async () => {
+  if (!$("orderForm").reportValidity()) return;
   const button = $("submit");
   button.disabled = true;
   $("status").textContent = "送信しています…";
   try {
-    const saved = await window.welcomeOrders.create(buildPayload());
+    const payload = buildPayload();
+    if (!hasOrderContent(payload)) {
+      $("status").textContent = "";
+      $("emptyOrderDialog").showModal();
+      return;
+    }
+    const saved = await window.welcomeOrders.create(payload);
     $("orderId").textContent = saved.order_id;
     $("orderForm").hidden = true;
     $("success").hidden = false;
@@ -149,6 +173,7 @@ $("orderForm").addEventListener("submit", async event => {
     button.disabled = false;
   }
 });
+$("closeEmptyOrder").addEventListener("click", () => $("emptyOrderDialog").close());
 $("newOrder").addEventListener("click", () => location.reload());
 
 $("orderDate").value = today();

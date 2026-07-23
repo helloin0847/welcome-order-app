@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#b51f2e">
   <title>麻雀WELCOME 名札・サービス券発注フォーム</title>
   <meta name="description" content="麻雀WELCOME店舗向けの名札・カード・サービス券・領収書発注フォーム">
-  <link rel="stylesheet" href="styles.css?v=20260723-4">
+  <link rel="stylesheet" href="styles.css?v=20260723-5">
 </head>
 <body>
   <header class="site-header">
@@ -137,7 +137,7 @@
 
       <div class="submit-area">
         <p id="status" class="status" aria-live="polite"></p>
-        <button class="submit-button" id="submit" type="submit">発注内容を送信</button>
+        <button class="submit-button" id="submit" type="button">発注内容を送信</button>
       </div>
     </form>
 
@@ -148,6 +148,13 @@
       <button class="secondary-button" type="button" id="newOrder">TOPに戻る</button>
     </section>
   </main>
+
+  <dialog id="emptyOrderDialog" class="notice-dialog">
+    <div class="notice-icon">!</div>
+    <h2>発注内容が入力されていません。</h2>
+    <p>名札または商品の数量を入力してから、もう一度送信してください。</p>
+    <button id="closeEmptyOrder" class="secondary-button" type="button">入力画面に戻る</button>
+  </dialog>
 
   <template id="nameTemplate">
     <div class="name-row">
@@ -163,6 +170,6 @@
     </div>
   </template>
   <script src="supabase.js"></script>
-  <script src="app.js?v=20260723-2"></script>
+  <script src="app.js?v=20260723-3"></script>
 </body>
 </html>
