@@ -19,7 +19,8 @@ body {
 }
 .site-header { color: var(--white); background: linear-gradient(120deg, var(--red-dark), var(--red)); border-bottom: 4px solid var(--gold); }
 .header-inner { display: flex; align-items: center; gap: 16px; max-width: 920px; margin: auto; padding: 24px 20px; }
-.brand-mark { display: grid; place-items: center; width: 52px; height: 52px; flex: 0 0 auto; border: 2px solid rgba(255,255,255,.9); border-radius: 50%; background: var(--white); color: var(--red); font: 900 28px Georgia, serif; }
+.brand-mark { display: grid; place-items: center; width: 62px; height: 62px; flex: 0 0 auto; overflow: hidden; border: 2px solid rgba(255,255,255,.9); border-radius: 50%; background: var(--white); }
+.brand-mark img { width: 58px; height: 58px; object-fit: contain; object-position: center bottom; }
 .eyebrow { margin: 0 0 3px; color: #f4dca7; font-size: 12px; font-weight: 800; letter-spacing: .13em; }
 h1 { margin: 0; font-size: clamp(23px, 4vw, 34px); }
 main { max-width: 920px; margin: 24px auto 64px; padding: 0 16px; }
@@ -86,8 +87,6 @@ button { font: inherit; cursor: pointer; }
 .urgent-date { max-width: 360px; margin-top: 16px; }
 .notes-field { margin-top: 18px; }
 .submit-area { display: flex; align-items: center; justify-content: flex-end; gap: 16px; margin-top: 18px; }
-.submit-guide { display: flex; align-items: center; gap: 10px; margin-right: auto; color: var(--muted); font-size: 13px; font-weight: 750; line-height: 1.5; }
-.submit-guide img { width: 56px; height: 48px; flex: 0 0 auto; object-fit: contain; object-position: bottom; }
 .status { margin: 0; color: var(--red); font-weight: 750; }
 .submit-button { min-width: 210px; border: 0; border-radius: 10px; padding: 15px 26px; background: var(--red); color: white; font-size: 16px; font-weight: 900; box-shadow: 0 8px 18px rgba(181,31,46,.2); }
 .submit-button:hover { background: var(--red-dark); }
@@ -109,13 +108,12 @@ button { font: inherit; cursor: pointer; }
   .sample-wrap { height: 95px; }
   .quantity-box { padding: 12px; }
   .submit-area { align-items: stretch; flex-direction: column; }
-  .submit-guide { justify-content: center; margin-right: 0; text-align: left; }
-  .submit-guide img { width: 52px; height: 45px; }
   .submit-button { width: 100%; }
 }
 @media (max-width: 430px) {
   .header-inner { padding: 19px 16px; }
-  .brand-mark { width: 45px; height: 45px; font-size: 24px; }
+  .brand-mark { width: 52px; height: 52px; }
+  .brand-mark img { width: 48px; height: 48px; }
   .product-card { grid-template-columns: 100px 1fr; gap: 12px; padding: 11px; }
   .product-content h3 { font-size: 14px; }
   .quantity-input input { width: 86px; }
