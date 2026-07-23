@@ -150,17 +150,24 @@ $("orderForm").addEventListener("keydown", event => {
   }
 });
 $("submit").addEventListener("click", async () => {
-  if (!$("orderForm").reportValidity()) return;
   const button = $("submit");
+  let payload;
+  try {
+    payload = buildPayload();
+  } catch (error) {
+    $("status").textContent = error.message || "入力内容をご確認ください。";
+    return;
+  }
+  if (!hasOrderContent(payload)) {
+    $("status").textContent = "";
+    $("emptyOrderDialog").showModal();
+    return;
+  }
+  if (!$("orderForm").reportValidity()) return;
+
   button.disabled = true;
   $("status").textContent = "送信しています…";
   try {
-    const payload = buildPayload();
-    if (!hasOrderContent(payload)) {
-      $("status").textContent = "";
-      $("emptyOrderDialog").showModal();
-      return;
-    }
     const saved = await window.welcomeOrders.create(payload);
     $("orderId").textContent = saved.order_id;
     $("orderForm").hidden = true;
