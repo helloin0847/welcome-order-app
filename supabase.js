@@ -38,6 +38,18 @@
         limit: "10"
       });
       return request(`/rest/v1/welcome_supply_orders?${query}`);
+    },
+    async adminList(pin) {
+      return request("/rest/v1/rpc/welcome_admin_list_orders", {
+        method: "POST",
+        body: JSON.stringify({ p_pin: pin })
+      });
+    },
+    async adminUpdateStatus(pin, orderId, status) {
+      return request("/rest/v1/rpc/welcome_admin_update_status", {
+        method: "POST",
+        body: JSON.stringify({ p_pin: pin, p_order_id: orderId, p_status: status })
+      });
     }
   };
 })();

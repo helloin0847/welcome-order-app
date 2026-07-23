@@ -21,8 +21,17 @@ create table if not exists public.welcome_supply_orders (
   handwritten_female_quantity integer not null default 0 check (handwritten_female_quantity >= 0),
   name_tags jsonb not null default '[]'::jsonb,
   notes text not null default '',
+  status text not null default '未手配'
+    check (status in ('未手配', '手配中', '完了')),
+  completed_at timestamptz,
+  updated_at timestamptz not null default now(),
   created_at timestamptz not null default now()
 );
+
+alter table public.welcome_supply_orders
+  add column if not exists status text not null default '未手配',
+  add column if not exists completed_at timestamptz,
+  add column if not exists updated_at timestamptz not null default now();
 
 create index if not exists welcome_supply_orders_store_created_idx
   on public.welcome_supply_orders (store, created_at desc);
@@ -40,3 +49,77 @@ create policy "welcome_orders_insert"
 
 grant select, insert on public.welcome_supply_orders to anon;
 grant usage, select on sequence public.welcome_supply_orders_id_seq to anon;
+
+create extension if not exists pgcrypto;
+
+create table if not exists public.welcome_admin_settings (
+  id text primary key default 'main',
+  pin_hash text not null
+);
+
+alter table public.welcome_admin_settings enable row level security;
+revoke all on public.welcome_admin_settings from anon;
+
+-- __ADMIN_PIN__ は設定時に実際の管理PINへ置き換えます。
+insert into public.welcome_admin_settings (id, pin_hash)
+values ('main', crypt('__ADMIN_PIN__', gen_salt('bf')))
+on conflict (id) do update set pin_hash = excluded.pin_hash;
+
+create or replace function public.welcome_admin_pin_is_valid(p_pin text)
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.welcome_admin_settings
+    where id = 'main' and pin_hash = crypt(p_pin, pin_hash)
+  );
+$$;
+
+create or replace function public.welcome_admin_list_orders(p_pin text)
+returns setof public.welcome_supply_orders
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if not public.welcome_admin_pin_is_valid(p_pin) then
+    raise exception 'invalid admin pin';
+  end if;
+  return query
+    select * from public.welcome_supply_orders
+    order by created_at desc
+    limit 500;
+end;
+$$;
+
+create or replace function public.welcome_admin_update_status(
+  p_pin text,
+  p_order_id text,
+  p_status text
+)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if not public.welcome_admin_pin_is_valid(p_pin) then
+    raise exception 'invalid admin pin';
+  end if;
+  if p_status not in ('未手配', '手配中', '完了') then
+    raise exception 'invalid status';
+  end if;
+
+  update public.welcome_supply_orders
+  set status = p_status,
+      completed_at = case when p_status = '完了' then coalesce(completed_at, now()) else null end,
+      updated_at = now()
+  where order_id = p_order_id;
+end;
+$$;
+
+revoke all on function public.welcome_admin_pin_is_valid(text) from public;
+grant execute on function public.welcome_admin_list_orders(text) to anon;
+grant execute on function public.welcome_admin_update_status(text, text, text) to anon;
