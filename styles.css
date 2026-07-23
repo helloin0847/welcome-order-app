@@ -87,7 +87,7 @@ button { font: inherit; cursor: pointer; }
 .notes-field { margin-top: 18px; }
 .submit-area { display: flex; align-items: center; justify-content: flex-end; gap: 16px; margin-top: 18px; }
 .submit-guide { display: flex; align-items: center; gap: 10px; margin-right: auto; color: var(--muted); font-size: 13px; font-weight: 750; line-height: 1.5; }
-.submit-guide img { width: 92px; height: 78px; object-fit: contain; object-position: bottom; }
+.submit-guide img { width: 56px; height: 48px; flex: 0 0 auto; object-fit: contain; object-position: bottom; }
 .status { margin: 0; color: var(--red); font-weight: 750; }
 .submit-button { min-width: 210px; border: 0; border-radius: 10px; padding: 15px 26px; background: var(--red); color: white; font-size: 16px; font-weight: 900; box-shadow: 0 8px 18px rgba(181,31,46,.2); }
 .submit-button:hover { background: var(--red-dark); }
@@ -110,7 +110,7 @@ button { font: inherit; cursor: pointer; }
   .quantity-box { padding: 12px; }
   .submit-area { align-items: stretch; flex-direction: column; }
   .submit-guide { justify-content: center; margin-right: 0; text-align: left; }
-  .submit-guide img { width: 82px; height: 70px; }
+  .submit-guide img { width: 52px; height: 45px; }
   .submit-button { width: 100%; }
 }
 @media (max-width: 430px) {
