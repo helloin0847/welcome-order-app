@@ -1,4 +1,4 @@
--- 麻雀WELCOME 店舗備品発注アプリ専用テーブル
+-- 麻雀WELCOME 名札・サービス券発注アプリ専用テーブル
 -- Supabase Dashboard > SQL Editor で一度だけ実行してください。
 
 create table if not exists public.welcome_supply_orders (
