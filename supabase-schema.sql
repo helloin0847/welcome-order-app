@@ -60,9 +60,9 @@ create table if not exists public.welcome_admin_settings (
 alter table public.welcome_admin_settings enable row level security;
 revoke all on public.welcome_admin_settings from anon;
 
--- __ADMIN_PIN__ は設定時に実際の管理PINへ置き換えます。
+-- 次の値は設定時に実際の管理PINへ置き換えます。
 insert into public.welcome_admin_settings (id, pin_hash)
-values ('main', crypt('__ADMIN_PIN__', gen_salt('bf')))
+values ('main', extensions.crypt('__ADMIN_PIN__', extensions.gen_salt('bf')))
 on conflict (id) do update set pin_hash = excluded.pin_hash;
 
 create or replace function public.welcome_admin_pin_is_valid(p_pin text)
@@ -73,7 +73,7 @@ set search_path = public
 as $$
   select exists (
     select 1 from public.welcome_admin_settings
-    where id = 'main' and pin_hash = crypt(p_pin, pin_hash)
+    where id = 'main' and pin_hash = extensions.crypt(p_pin, pin_hash)
   );
 $$;
 
