@@ -71,7 +71,7 @@
           <div><h2>名札</h2><p>1人ずつ、表記する名前・性別・追加事項・枚数を入力できます。</p></div>
         </div>
         <div class="name-head" aria-hidden="true">
-          <span>表記する名前</span><span>性別</span><span>追加事項（肩書など）</span><span>枚数</span><span></span>
+          <span>表記する名前</span><span>性別 <span class="required">必須</span></span><span>追加事項（肩書など）</span><span>枚数</span><span></span>
         </div>
         <div id="nameRows"></div>
         <button class="add-button" type="button" id="addName">＋ 名札を追加</button>
@@ -153,8 +153,8 @@
     <div class="name-row">
       <div class="mobile-label">表記する名前</div>
       <input class="tag-name" aria-label="表記する名前" placeholder="例：荒井">
-      <div class="mobile-label">性別</div>
-      <select class="tag-gender" aria-label="性別"><option value="">選択</option><option>男性</option><option>女性</option></select>
+      <div class="mobile-label">性別 <span class="required">必須</span></div>
+      <select class="tag-gender" aria-label="性別" aria-required="true"><option value="">性別を選択</option><option>男性</option><option>女性</option></select>
       <div class="mobile-label">追加事項</div>
       <input class="tag-extra" aria-label="追加事項" placeholder="肩書など（任意）">
       <div class="mobile-label">枚数</div>
@@ -163,6 +163,6 @@
     </div>
   </template>
   <script src="supabase.js"></script>
-  <script src="app.js"></script>
+  <script src="app.js?v=20260723-2"></script>
 </body>
 </html>

@@ -18,6 +18,17 @@ const createOrderId = () => {
 
 function addNameRow() {
   const row = $("nameTemplate").content.cloneNode(true);
+  const nameInput = row.querySelector(".tag-name");
+  const genderSelect = row.querySelector(".tag-gender");
+  const extraInput = row.querySelector(".tag-extra");
+  const syncRequired = () => {
+    const rowHasInput = Boolean(nameInput.value.trim() || genderSelect.value || extraInput.value.trim());
+    genderSelect.required = rowHasInput;
+    nameInput.required = Boolean(genderSelect.value || extraInput.value.trim());
+  };
+  nameInput.addEventListener("input", syncRequired);
+  genderSelect.addEventListener("change", syncRequired);
+  extraInput.addEventListener("input", syncRequired);
   row.querySelector(".remove-button").addEventListener("click", event => {
     event.currentTarget.closest(".name-row").remove();
     if (!$("nameRows").children.length) addNameRow();
