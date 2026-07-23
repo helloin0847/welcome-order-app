@@ -123,3 +123,33 @@ $$;
 revoke all on function public.welcome_admin_pin_is_valid(text) from public;
 grant execute on function public.welcome_admin_list_orders(text) to anon;
 grant execute on function public.welcome_admin_update_status(text, text, text) to anon;
+
+-- 発注時の本部メール通知
+-- 次の2つの値は設定時に実際のWebアプリURLと通知連携キーへ置き換えます。
+create extension if not exists pg_net with schema extensions;
+
+create or replace function public.notify_welcome_order_email()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  perform net.http_post(
+    url := '__MAIL_WEBHOOK_URL__',
+    headers := '{"Content-Type":"application/json"}'::jsonb,
+    body := jsonb_build_object(
+      'token', '__MAIL_WEBHOOK_TOKEN__',
+      'order', to_jsonb(new)
+    )
+  );
+  return new;
+end;
+$$;
+
+drop trigger if exists welcome_order_email_notification
+  on public.welcome_supply_orders;
+
+create trigger welcome_order_email_notification
+after insert on public.welcome_supply_orders
+for each row execute function public.notify_welcome_order_email();
