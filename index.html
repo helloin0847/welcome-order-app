@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#b51f2e">
+  <title>麻雀WELCOME 店舗備品発注</title>
+  <meta name="description" content="麻雀WELCOME店舗向けの名札・カード・サービス券・領収書発注フォーム">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand-mark" aria-hidden="true">W</div>
+      <div>
+        <p class="eyebrow">麻雀 WELCOME</p>
+        <h1>店舗備品 発注フォーム</h1>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <form id="orderForm">
+      <section class="panel">
+        <div class="section-heading">
+          <span class="step">1</span>
+          <div><h2>申請情報</h2><p>発注する店舗と担当者を入力してください。</p></div>
+        </div>
+        <div class="grid two">
+          <div class="field">
+            <label for="store">店舗名 <span class="required">必須</span></label>
+            <select id="store" required>
+              <option value="">店舗を選択してください</option>
+              <option>千葉店</option>
+              <option>新小岩店</option>
+              <option>大宮店</option>
+              <option>日暮里店</option>
+              <option>靖国通り店</option>
+              <option>三宮店</option>
+              <option>歌舞伎町店</option>
+              <option>水道橋店</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="staff">担当者名 <span class="required">必須</span></label>
+            <input id="staff" required autocomplete="name" placeholder="例：山田">
+          </div>
+          <div class="field">
+            <label for="orderDate">発注日</label>
+            <input id="orderDate" type="date">
+          </div>
+        </div>
+        <button class="secondary-button history-button" id="historyButton" type="button" hidden>
+          この店舗の発注履歴を見る
+        </button>
+        <div class="history-panel" id="historyPanel" hidden>
+          <div class="history-title-row">
+            <h3 id="historyTitle">発注履歴</h3>
+            <button class="text-button" id="historyClose" type="button">閉じる</button>
+          </div>
+          <p id="historyStatus" class="muted" aria-live="polite"></p>
+          <div class="history-list" id="historyList"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <span class="step">2</span>
+          <div><h2>名札</h2><p>1人ずつ、表記する名前・性別・追加事項・枚数を入力できます。</p></div>
+        </div>
+        <div class="name-head" aria-hidden="true">
+          <span>表記する名前</span><span>性別</span><span>追加事項（肩書など）</span><span>枚数</span><span></span>
+        </div>
+        <div id="nameRows"></div>
+        <button class="add-button" type="button" id="addName">＋ 名札を追加</button>
+
+        <div class="subsection">
+          <h3>新人用手書き名札</h3>
+          <div class="grid two">
+            <div class="quantity-box">
+              <label for="handwrittenMaleQuantity">男性用</label>
+              <div class="quantity-input"><input id="handwrittenMaleQuantity" type="text" value="0" inputmode="numeric" pattern="[0-9]*"><span>枚</span></div>
+            </div>
+            <div class="quantity-box">
+              <label for="handwrittenFemaleQuantity">女性用</label>
+              <div class="quantity-input"><input id="handwrittenFemaleQuantity" type="text" value="0" inputmode="numeric" pattern="[0-9]*"><span>枚</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <span class="step">3</span>
+          <div><h2>カード・サービス券・領収書</h2><p>必要な数量を手入力してください。</p></div>
+        </div>
+        <div class="product-grid">
+          <article class="product-card">
+            <div class="sample-wrap"><img src="assets/new-card.png" alt="新規カード見本"></div>
+            <div class="product-content"><h3>新規カード</h3><label for="cardQuantity">枚数</label><div class="quantity-input"><input id="cardQuantity" type="text" value="0" inputmode="numeric" pattern="[0-9]*"><span>枚</span></div></div>
+          </article>
+          <article class="product-card">
+            <div class="sample-wrap"><img src="assets/free-ticket.png" alt="フリーサービス券見本"></div>
+            <div class="product-content"><h3>サービス券（フリー用）</h3><label for="freeQuantity">枚数</label><div class="quantity-input"><input id="freeQuantity" type="text" value="0" inputmode="numeric" pattern="[0-9]*"><span>枚</span></div></div>
+          </article>
+          <article class="product-card">
+            <div class="sample-wrap"><img src="assets/set-ticket.png" alt="セットサービス券見本"></div>
+            <div class="product-content"><h3>サービス券（セット用）</h3><label for="setQuantity">枚数</label><div class="quantity-input"><input id="setQuantity" type="text" value="0" inputmode="numeric" pattern="[0-9]*"><span>枚</span></div></div>
+          </article>
+          <article class="product-card">
+            <div class="sample-wrap"><img src="assets/receipt.png" alt="領収書見本"></div>
+            <div class="product-content"><h3>領収書</h3><label for="receiptQuantity">冊数</label><div class="quantity-input"><input id="receiptQuantity" type="text" value="0" inputmode="numeric" pattern="[0-9]*"><span>冊</span></div></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <span class="step">4</span>
+          <div><h2>納品希望</h2><p>通常は月末納品です。至急の場合だけ希望日を入力してください。</p></div>
+        </div>
+        <div class="delivery-options">
+          <label class="choice"><input type="radio" name="delivery" value="通常（月末）" checked><span><strong>通常（月末）</strong><small>希望日の入力は不要です</small></span></label>
+          <label class="choice"><input type="radio" name="delivery" value="至急"><span><strong>至急</strong><small>納品希望日を入力します</small></span></label>
+        </div>
+        <div class="field urgent-date" id="dateField" hidden>
+          <label for="deliveryDate">納品希望日</label>
+          <input id="deliveryDate" type="date">
+        </div>
+        <div class="field notes-field">
+          <label for="notes">備考</label>
+          <textarea id="notes" rows="3" placeholder="連絡事項があれば入力してください"></textarea>
+        </div>
+      </section>
+
+      <div class="submit-area">
+        <p id="status" class="status" aria-live="polite"></p>
+        <button class="submit-button" id="submit" type="submit">発注内容を送信</button>
+      </div>
+    </form>
+
+    <section id="success" class="panel success" hidden>
+      <div class="success-icon">✓</div>
+      <h2>発注を受け付けました</h2>
+      <p>受付番号：<strong id="orderId"></strong></p>
+      <button class="secondary-button" type="button" id="newOrder">続けて発注する</button>
+    </section>
+  </main>
+
+  <template id="nameTemplate">
+    <div class="name-row">
+      <div class="mobile-label">表記する名前</div>
+      <input class="tag-name" aria-label="表記する名前" placeholder="例：荒井">
+      <div class="mobile-label">性別</div>
+      <select class="tag-gender" aria-label="性別"><option value="">選択</option><option>男性</option><option>女性</option></select>
+      <div class="mobile-label">追加事項</div>
+      <input class="tag-extra" aria-label="追加事項" placeholder="肩書など（任意）">
+      <div class="mobile-label">枚数</div>
+      <select class="tag-quantity" aria-label="枚数"><option value="1">1枚</option><option value="2">2枚</option><option value="3">3枚</option><option value="4">4枚</option><option value="5">5枚</option></select>
+      <button class="remove-button" type="button" aria-label="この名札を削除">×</button>
+    </div>
+  </template>
+  <script src="supabase.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
